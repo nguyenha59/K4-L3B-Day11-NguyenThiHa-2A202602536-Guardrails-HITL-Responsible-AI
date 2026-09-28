@@ -105,7 +105,10 @@ def get_blue_provider() -> str:
 
 def get_blue_model() -> str:
     # Hard-locked; env cannot override for the graded Blue Team path.
-    return BLUE_MODEL
+    # Only OpenRouter's ":free" variant suffix of the SAME model is allowed
+    # (the paid endpoint may be unavailable: "No endpoints found").
+    variant = os.environ.get("OPENROUTER_BLUE_VARIANT", "").strip()
+    return BLUE_MODEL + variant if variant == ":free" else BLUE_MODEL
 
 
 def get_openrouter_api_key() -> str:
